@@ -1,6 +1,10 @@
 const webpcss = require('webpcss').default;
 module.exports = {
     plugins: [
-        webpcss()
+        webpcss({
+            webpClass: 'html.webp',
+            noWebpClass: '',
+            replace_from: /.(png|jpg|jpeg)$/i,
+        })
     ]
 }

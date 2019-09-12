@@ -1,3 +1,6 @@
 .avatar {
     background-image: url(avatar.png);
 }
+.svgavatar {
+    background-image: url(avatar.svg);
+}
