@@ -1,25 +1,34 @@
-"use strict";
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
-var webpcss = require("webpcss");
+'use strict';
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const path = require('path');
 
 module.exports = {
+  mode: 'production', // ONLY for this example
   module: {
-    loaders: [
-      { test: /\.css$/, loader: ExtractTextPlugin.extract("style-loader","css-loader!postcss-loader") },
-      { test: /\.(png|jpg|jpeg|gif|svg|webp)$/, loader: "file-loader?name=[path][name]-[hash].[ext]" }
+    rules: [{
+        test: /\.css$/,
+        use: [{
+          loader: MiniCssExtractPlugin.loader,
+        }, 'css-loader', 'postcss-loader']
+      },
+      {
+        test: /\.(png|jpg|jpeg|gif|svg|webp)$/,
+        use: 'file-loader?name=[path][name]-[hash].[ext]'
+      }
     ]
   },
   entry: {
-    app: "./app.js"
+    app: './app.js'
   },
   output: {
-    path: "out",
-    filename: "dist.js"
-  },
-  postcss: function () {
-    return [webpcss.default];
+    path: path.join(__dirname, 'out'),
+    filename: 'dist.js'
   },
   plugins: [
-    new ExtractTextPlugin("styles.css")
+    new MiniCssExtractPlugin({
+      filename: 'styles.css',
+      chunkFilename: '[id].css',
+      ignoreOrder: false,
+    })
   ]
 }
